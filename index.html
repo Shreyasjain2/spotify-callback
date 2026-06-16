@@ -1090,7 +1090,7 @@ footer p {
   // ── Retro Mini Game ──
   canvas.style.cursor = 'crosshair';
   let animFrame    = null;
-  let eggHealth    = 10;
+  let eggHealth    = 5;
   let shakeTime    = 0;
   let frameCount   = 0;
   let done         = false;
@@ -1153,9 +1153,8 @@ footer p {
     setTimeout(() => { if(!done) overlay.style.backgroundColor = '#000'; }, 40);
 
     if (eggHealth > 0) {
-      eggText.textContent = `> SHELL INTEGRITY: ${eggHealth * 10}%`;
-      if (eggHealth <= 3) eggText.style.color = '#ff003c';
-      else if (eggHealth <= 6) eggText.style.color = '#ffb000';
+      if (eggHealth <= 2) eggText.style.color = '#ff003c';
+      else if (eggHealth <= 4) eggText.style.color = '#ffb000';
     } else {
       // Destroyed!
       done = true;
@@ -1179,7 +1178,7 @@ footer p {
   }
 
   function openEgg() {
-    eggHealth = 10;
+    eggHealth = 5;
     shakeTime = 0;
     frameCount = 0;
     done = false;
@@ -1210,7 +1209,5 @@ footer p {
 
 </body>
 </html>
-
-
 
 
