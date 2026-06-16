@@ -1200,8 +1200,32 @@ footer p {
 
   trigger.addEventListener('click', openEgg);
   skipBtn.addEventListener('click', closeOverlay);
+  
+  // Konami Code: Up, Up, Down, Down, Left, Right, Left, Right, B, A, Enter
+  const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+  let konamiIndex = 0;
+
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.classList.contains('active')) closeOverlay();
+    // Handle Escape to close
+    if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      closeOverlay();
+      return;
+    }
+    
+    // Konami Sequence Tracker
+    if (e.keyCode === konamiSequence[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === konamiSequence.length) {
+        // Skip animation completely and instantly spawn player
+        window.__SPOTIFY_EGG_TRIGGERED = true;
+        window.dispatchEvent(new CustomEvent('spotify-egg-cracked', {
+          detail: { source: 'portfolio-easter-egg', ts: Date.now() }
+        }));
+        konamiIndex = 0;
+      }
+    } else {
+      konamiIndex = (e.keyCode === konamiSequence[0]) ? 1 : 0;
+    }
   });
 
 })();
@@ -1209,5 +1233,7 @@ footer p {
 
 </body>
 </html>
+
+
 
 
