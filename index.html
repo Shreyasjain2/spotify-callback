@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shreyas Jain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a0a;
+  --bg2:      #111111;
+  --bg3:      #1a1a1a;
+  --border:   #222222;
+  --muted:    #444444;
+  --text-dim: #888888;
+  --text:     #c8c4bc;
+  --text-hi:  #f0ede8;
+  --sage:     #8fa68a;
+  --amber:    #c8a96e;
+  --amber-dim:#7a6340;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Typography ───────────────────────────────────────────────── */
+.display { font-family: 'Space Grotesk', sans-serif; }
+.mono    { font-family: 'Space Mono', monospace; }
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+section { padding: 96px 0; border-top: 1px solid var(--border); }
+section:first-of-type { border-top: none; }
+
+/* ── Nav ──────────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-hi);
+  letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-hi); }
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+/* Signature element: faint drifting math in background */
+.math-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.04;
+}
+
+.math-bg canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 60px 0;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.hero-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 700;
+  color: var(--text-hi);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.hero-name span {
+  display: block;
+  color: var(--sage);
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 480px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+
+.hero-desc strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.hero-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--amber);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-ghost {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 12px 28px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { color: var(--text-hi); border-color: var(--muted); }
+
+/* ── Section labels ───────────────────────────────────────────── */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+/* ── About ────────────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-text h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-hi);
+  line-height: 1.3;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.about-text p {
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  font-size: 14.5px;
+}
+
+.about-text p strong { color: var(--text); font-weight: 500; }
+
+.interest-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--sage);
+  border: 1px solid #2a3a2a;
+  background: #0f160f;
+  padding: 6px 12px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--border);
+}
+
+.stat-row {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.stat-row:last-child { border-bottom: none; }
+
+.stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-hi);
+}
+
+/* ── Research Interests ───────────────────────────────────────── */
+.interest-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin-top: 8px;
+}
+
+.interest-card {
+  background: var(--bg2);
+  padding: 32px 28px;
+}
+
+.interest-card .icon {
+  font-size: 24px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.interest-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.interest-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+/* ── Projects ─────────────────────────────────────────────────── */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+}
+
+.project-item {
+  background: var(--bg2);
+  padding: 32px 36px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.project-item:hover { background: var(--bg3); }
+
+.project-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--sage);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.project-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.project-desc {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tech-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--amber-dim);
+  background: #1a1408;
+  border: 1px solid #2a2010;
+  padding: 4px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.project-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  margin-top: 4px;
+  transition: color 0.2s, transform 0.2s;
+}
+.project-item:hover .project-arrow { color: var(--amber); transform: translate(3px,-3px); }
+
+/* ── Experience ───────────────────────────────────────────────── */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+}
+
+.exp-year {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  padding-top: 3px;
+  line-height: 1.5;
+}
+
+.exp-body h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.exp-body .company {
+  font-size: 13px;
+  color: var(--sage);
+  margin-bottom: 10px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+.exp-body p {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ── Skills ───────────────────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.skill-group {
+  background: var(--bg2);
+  padding: 24px;
+}
+
+.skill-group h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-list li::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── Contact / Footer ─────────────────────────────────────────── */
+#contact {
+  padding: 96px 0 64px;
+  border-top: 1px solid var(--border);
+}
+
+.contact-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.contact-left h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-hi);
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.contact-left p {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-link:hover { color: var(--text-hi); }
+.contact-link::before { content: '→'; color: var(--amber); font-size: 12px; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+/* ── Easter Egg — the pixel egg glyph ────────────────────────── */
+#egg-trigger {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  width: 36px;
+  height: 44px;
+  cursor: pointer;
+  z-index: 200;
+  opacity: 0.18;
+  transition: opacity 0.3s;
+}
+#egg-trigger:hover { opacity: 0.55; }
+
+/* ── Easter Egg — retro overlay ──────────────────────────────── */
+#egg-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  image-rendering: pixelated;
+}
+
+#egg-overlay.active { display: flex; }
+
+/* CRT scanlines */
+#egg-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.35) 2px,
+    rgba(0,0,0,0.35) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* CRT vignette */
+#egg-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+#egg-stage {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+#retro-canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+#egg-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #00ff41;
+  text-shadow: 0 0 8px #00ff41;
+  margin-top: 32px;
+  min-height: 20px;
+  text-align: center;
+}
+
+#egg-skip {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  z-index: 20;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+#egg-skip:hover { color: #666; }
+
+/* ── Scroll reveal ────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .about-grid    { grid-template-columns: 1fr; gap: 40px; }
+  .interest-grid { grid-template-columns: 1fr; }
+  .skills-grid   { grid-template-columns: 1fr 1fr; }
+  .exp-item      { grid-template-columns: 1fr; gap: 8px; }
+  nav            { padding: 16px 20px; }
+  .nav-links     { gap: 20px; }
+  .container     { padding: 0 20px; }
+}
+@media (max-width: 480px) {
+  .skills-grid   { grid-template-columns: 1fr; }
+  .hero-name     { font-size: 44px; }
+  .project-item  { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────── -->
+<nav>
+  <span class="nav-logo">SJ</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="math-bg"><canvas id="math-canvas"></canvas></div>
+  <div class="container">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">ML Engineer · RVCE, Bangalore</p>
+      <h1 class="hero-name display">
+        Shreyas
+        <span>Jain</span>
+      </h1>
+      <p class="hero-desc">
+        Building things at the intersection of <strong>mathematics and machine intelligence</strong>.
+        Deep interest in how <strong>LLMs reason</strong>, how agents learn through reward, and how
+        systems can be made to think more like they mean it.
+      </p>
+      <div class="hero-links">
+        <a href="#work" class="btn-primary">View Projects</a>
+        <a href="https://github.com/Shreyasjain2" target="_blank" class="btn-ghost">GitHub</a>
+        <a href="https://www.linkedin.com/in/shreyas-jain-b7970125a/" target="_blank" class="btn-ghost">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ────────────────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <h2>Passionate about the maths that make AI think.</h2>
+        <p>
+          I'm a Machine Learning developer at RV College of Engineering, Bangalore —
+          currently studying how intelligence emerges from numbers, gradients, and reward signals.
+        </p>
+        <p>
+          My particular obsession is <strong>mathematics inside LLMs</strong>: how attention composes,
+          how transformers represent structure, and what makes reasoning emerge at scale. On the other side,
+          I'm drawn to <strong>Reinforcement Learning</strong> — training agents to act well in worlds
+          they have to discover themselves.
+        </p>
+        <p>
+          Outside of research, I build things: drones that search and rescue, bots that speak medicine,
+          games that challenge you, and frameworks that let agents collaborate.
+        </p>
+        <div class="interest-chips">
+          <span class="chip">LLM Mathematics</span>
+          <span class="chip">Reinforcement Learning</span>
+          <span class="chip">Generative AI</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">TensorFlow</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-row">
+          <p class="stat-label">Currently</p>
+          <p class="stat-value">B.E. at RVCE, Bangalore</p>
+        </div>
+        <div class="stat-row">
+          <p class="stat-label">Focus</p>
+          <p class="stat-value">ML & Generative AI</p>
+        </div>
+        <div class="stat-row">
+          <p class="stat-label">Stack</p>
+          <p class="stat-value">Python · PyTorch · React</p>
+        </div>
+        <div class="stat-row">
+          <p class="stat-label">Also active on</p>
+          <p class="stat-value">Kaggle</p>
+        </div>
+        <div class="stat-row">
+          <p class="stat-label">Contact</p>
+          <p class="stat-value">shreyasjain.feb@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Research Interests ────────────────────────────────────────── -->
+<section id="interests">
+  <div class="container">
+    <p class="section-label">Research Interests</p>
+    <div class="interest-grid reveal">
+      <div class="interest-card">
+        <span class="icon">∑</span>
+        <h3>Maths in LLMs</h3>
+        <p>How attention heads compose, how positional encodings encode sequence, and what makes mathematical reasoning emerge at scale in transformers.</p>
+      </div>
+      <div class="interest-card">
+        <span class="icon">π</span>
+        <h3>Reinforcement Learning</h3>
+        <p>Policy gradient methods, reward shaping, and multi-agent coordination — particularly PPO applied to real-world autonomous systems like drone swarms.</p>
+      </div>
+      <div class="interest-card">
+        <span class="icon">∇</span>
+        <h3>Generative AI</h3>
+        <p>Building systems that generate, reason, and converse: from 3D avatar assistants to multi-agent frameworks where models collaborate on complex tasks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ──────────────────────────────────────────────────── -->
+<section id="work">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <div class="projects-list reveal">
+
+      <a class="project-item" href="https://github.com/Shreyasjain2/Autonomous-Search-and-Rescue-Drone" target="_blank">
+        <div>
+          <p class="project-tag">Reinforcement Learning · Robotics</p>
+          <p class="project-title">Autonomous Search & Rescue Drone</p>
+          <p class="project-desc">Multi-drone swarm trained with PPO to search disaster zones and locate victims. Includes PyBullet simulation, a React dashboard for real-time training metrics, and an email notification system for mission updates.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">PPO / Stable Baselines3</span>
+            <span class="tech-pill">PyBullet</span>
+            <span class="tech-pill">React</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <a class="project-item" href="https://github.com/Shreyasjain2/Medsurance" target="_blank">
+        <div>
+          <p class="project-tag">Generative AI · Healthcare</p>
+          <p class="project-title">Medsurance — Virtual Medical Examiner</p>
+          <p class="project-desc">AI-driven health assessment platform with a 3D avatar medical bot that conducts natural conversations to gather patient data for insurance underwriting. Integrates custom LLMs, TTS, and hospital database systems.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Flask</span>
+            <span class="tech-pill">Three.js</span>
+            <span class="tech-pill">TensorFlow</span>
+            <span class="tech-pill">MySQL</span>
+            <span class="tech-pill">React</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <a class="project-item" href="https://github.com/Shreyasjain2/Ensembleai" target="_blank">
+        <div>
+          <p class="project-tag">Multi-Agent AI · Framework</p>
+          <p class="project-title">EnsembleAI</p>
+          <p class="project-desc">A framework for orchestrating multiple AI agents that collaborate and divide complex tasks, each initialized with different tools and model backends. An exploration of how heterogeneous agents can compose into capable systems.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Multi-Agent</span>
+            <span class="tech-pill">LLM Orchestration</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <a class="project-item" href="https://github.com/Shreyasjain2/Tank-Artillery-Detection" target="_blank">
+        <div>
+          <p class="project-tag">Computer Vision · Defence</p>
+          <p class="project-title">Tank & Artillery Detection</p>
+          <p class="project-desc">Object detection pipeline for identifying armoured vehicles and artillery in aerial imagery, using deep vision models trained on military hardware datasets.</p>
+          <div class="project-tech">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">OpenCV</span>
+            <span class="tech-pill">Jupyter</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+      <a class="project-item" href="https://github.com/Shreyasjain2/VsWordle" target="_blank">
+        <div>
+          <p class="project-tag">Full-stack · Game</p>
+          <p class="project-title">VsWordle</p>
+          <p class="project-desc">A real-time multiplayer version of Wordle where you compete directly against another player, built in TypeScript.</p>
+          <div class="project-tech">
+            <span class="tech-pill">TypeScript</span>
+            <span class="tech-pill">Real-time</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Experience ────────────────────────────────────────────────── -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <div class="exp-list reveal">
+      <div class="exp-item">
+        <div class="exp-year">2024 – present</div>
+        <div class="exp-body">
+          <h3>ML & Generative AI Developer</h3>
+          <p class="company">RVCE · Academic & Project Work</p>
+          <p>Researching and building ML systems with focus on generative models, RL agents, and LLM applications. Active on Kaggle and contributing to open-source ML projects.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2024</div>
+        <div class="exp-body">
+          <h3>Autonomous Drone Systems</h3>
+          <p class="company">Project · RVCE</p>
+          <p>Led development of an RL-driven multi-drone search and rescue system — from simulation training with PyBullet to a full real-time React dashboard for mission monitoring.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2024</div>
+        <div class="exp-body">
+          <h3>Medsurance — AI Health Platform</h3>
+          <p class="company">Project · RVCE</p>
+          <p>Built an end-to-end AI medical evaluation system for insurance automation, integrating a 3D avatar with custom LLMs, hospital data APIs, and automated risk scoring.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ────────────────────────────────────────────────────── -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Tools & Languages</p>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>TypeScript</li>
+          <li>C / C++</li>
+          <li>MATLAB</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>ML / AI</h4>
+        <ul class="skill-list">
+          <li>PyTorch</li>
+          <li>TensorFlow</li>
+          <li>Stable Baselines3</li>
+          <li>scikit-learn</li>
+          <li>Pandas / Seaborn</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Frontend</h4>
+        <ul class="skill-list">
+          <li>React</li>
+          <li>Three.js</li>
+          <li>Vite</li>
+          <li>HTML / CSS / JS</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Other</h4>
+        <ul class="skill-list">
+          <li>Flask</li>
+          <li>MySQL</li>
+          <li>PyBullet</li>
+          <li>OpenCV</li>
+          <li>Kaggle</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ───────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner reveal">
+      <div class="contact-left">
+        <h2 class="display">Let's talk.</h2>
+        <p>Open to research collabs, internships, and interesting problems.</p>
+        <a href="mailto:shreyasjain.feb@gmail.com" class="btn-primary">Send an email</a>
+      </div>
+      <div class="contact-links">
+        <a href="https://github.com/Shreyasjain2" target="_blank" class="contact-link">github.com/Shreyasjain2</a>
+        <a href="https://www.linkedin.com/in/shreyas-jain-b7970125a/" target="_blank" class="contact-link">linkedin.com/in/shreyas-jain</a>
+        <a href="https://www.kaggle.com/shreyasjain123" target="_blank" class="contact-link">kaggle.com/shreyasjain123</a>
+        <a href="mailto:shreyasjain.feb@gmail.com" class="contact-link">shreyasjain.feb@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Shreyas Jain</p>
+  <p>Built with intent, no templates</p>
+</footer>
+
+<!-- ── Easter Egg — pixel egg trigger ────────────────────────────── -->
+<img id="egg-trigger" src="./Easter egg rero logo.png" alt="Easter Egg" title="..." style="object-fit: contain;" />
+
+<!-- ── Easter Egg — retro overlay ───────────────────────────────── -->
+<div id="egg-overlay">
+  <div id="egg-stage">
+    <canvas id="retro-canvas" width="320" height="320"></canvas>
+    <p id="egg-text">&nbsp;</p>
+  </div>
+  <button id="egg-skip">[ ESC to skip ]</button>
+</div>
+
+<!-- ── Scripts ───────────────────────────────────────────────────── -->
+<script>
+// ── Math background (signature element) ──────────────────────────
+(function () {
+  const canvas = document.getElementById('math-canvas');
+  const ctx    = canvas.getContext('2d');
+  const symbols = [
+    '∂L/∂θ', 'σ(x)', '∑ wᵢxᵢ', 'softmax', 'Q(s,a)',
+    '∇θJ', 'Atten(Q,K,V)', 'τ~π', 'E[R]', 'KL(P||Q)',
+    'W^T·x+b', 'ReLU', 'PPO', 'clip(r,ε)', 'V(s)',
+    '𝔼[Gt|St]', 'dπ/dθ', 'H(p)', 'cos sim', '‖θ‖²',
+  ];
+
+  let particles = [];
+  function resize() {
+    canvas.width  = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 28; i++) {
+    particles.push({
+      x:    Math.random() * canvas.width,
+      y:    Math.random() * canvas.height,
+      sym:  symbols[Math.floor(Math.random() * symbols.length)],
+      size: 11 + Math.random() * 10,
+      dx:   (Math.random() - 0.5) * 0.18,
+      dy:   (Math.random() - 0.5) * 0.12,
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = `400 13px 'Space Mono', monospace`;
+    ctx.fillStyle = '#c8a96e';
+    for (const p of particles) {
+      ctx.font = `400 ${p.size}px 'Space Mono', monospace`;
+      ctx.fillText(p.sym, p.x, p.y);
+      p.x += p.dx; p.y += p.dy;
+      if (p.x > canvas.width + 60)  p.x = -60;
+      if (p.x < -60)                 p.x = canvas.width + 60;
+      if (p.y > canvas.height + 20)  p.y = -20;
+      if (p.y < -20)                 p.y = canvas.height + 20;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── Scroll reveal ─────────────────────────────────────────────────
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => obs.observe(el));
+})();
+
+// ── Easter Egg ────────────────────────────────────────────────────
+(function () {
+  const trigger  = document.getElementById('egg-trigger');
+  const overlay  = document.getElementById('egg-overlay');
+  const canvas   = document.getElementById('retro-canvas');
+  const ctx      = canvas.getContext('2d');
+  const eggText  = document.getElementById('egg-text');
+  const skipBtn  = document.getElementById('egg-skip');
+
+  // Pixel size of each "retro pixel"
+  const PX = 10;
+  const W  = canvas.width  / PX; // 32 cells
+  const H  = canvas.height / PX; // 32 cells
+
+  // ── Palette (PICO-8 inspired) ──
+  const C = {
+    bg:      '#000000',
+    black:   '#000000',
+    shell:   '#c8a96e',
+    shellDk: '#7a6340',
+    shellLt: '#f0d89c',
+    crack:   '#2a1a0a',
+    white:   '#fff1e8',
+    green:   '#00ff41',
+    spotGrn: '#1db954',
+    spotBlk: '#191414',
+    glow:    '#1ed760',
+  };
+
+  // Load custom images
+  const eggImg = new Image();
+  eggImg.src = './Easter egg rero logo.png';
+  const spotifyImg = new Image();
+  spotifyImg.src = './spotify retro logo.png';
+
+  function drawPixel(x, y, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x * PX, y * PX, PX, PX);
+  }
+
+  function clearCanvas() {
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // Draw the egg using provided images
+  function drawEgg(phase) {
+    clearCanvas();
+
+    if (phase < 3) {
+      if (eggImg.complete && eggImg.naturalWidth !== 0) {
+        let offsetX = 0;
+        let offsetY = 0;
+        if (phase === 1) { offsetX = (Math.random() - 0.5) * 8; }
+        if (phase === 2) { offsetX = (Math.random() - 0.5) * 16; offsetY = (Math.random() - 0.5) * 16; }
+        ctx.drawImage(eggImg, offsetX, offsetY, canvas.width, canvas.height);
+      }
+    } else {
+      if (spotifyImg.complete && spotifyImg.naturalWidth !== 0) {
+        ctx.globalAlpha = Math.min((phase - 2) / 2, 1);
+        ctx.drawImage(spotifyImg, 0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  // CRT color flash on open
+  function flashScreen() {
+    overlay.style.backgroundColor = '#1db954';
+    setTimeout(() => { overlay.style.backgroundColor = '#000'; }, 80);
+  }
+
+  // ── Animation sequence ──
+  let animFrame    = null;
+  let phase        = 0;
+  let phaseTimer   = 0;
+  let frameCount   = 0;
+  let done         = false;
+
+  const messages = [
+    '',
+    '> SHELL BREACH DETECTED...',
+    '> CRACKING OPEN...',
+    '> INITIALISING PLAYBACK...',
+    '> ♫  SPOTIFY READY  ♫',
+  ];
+
+  function animate() {
+    frameCount++;
+    const fps = 12; // retro feel
+    if (frameCount % Math.floor(60 / fps) !== 0) {
+      animFrame = requestAnimationFrame(animate);
+      return;
+    }
+
+    phaseTimer++;
+    drawEgg(phase);
+
+    if      (phase === 0 && phaseTimer > 8)  { phase = 1; phaseTimer = 0; eggText.textContent = messages[1]; }
+    else if (phase === 1 && phaseTimer > 6)  { phase = 2; phaseTimer = 0; eggText.textContent = messages[2]; }
+    else if (phase === 2 && phaseTimer > 10) { phase = 3; phaseTimer = 0; eggText.textContent = messages[3]; flashScreen(); }
+    else if (phase === 3 && phaseTimer > 8)  {
+      eggText.textContent = messages[4];
+      eggText.style.color = '#1db954';
+      eggText.style.textShadow = '0 0 12px #1db954';
+      if (!done) {
+        done = true;
+        // ── TRIGGER POINT FOR TAMPERMONKEY ──
+        // The script sets this flag + dispatches a CustomEvent.
+        // Your Tampermonkey script should listen for 'spotify-egg-cracked'
+        // on window, OR poll window.__SPOTIFY_EGG_TRIGGERED.
+        window.__SPOTIFY_EGG_TRIGGERED = true;
+        window.dispatchEvent(new CustomEvent('spotify-egg-cracked', {
+          detail: { source: 'portfolio-easter-egg', ts: Date.now() }
+        }));
+        setTimeout(closeOverlay, 2800);
+      }
+    }
+
+    if (!done || phase < 3) animFrame = requestAnimationFrame(animate);
+  }
+
+  function openEgg() {
+    phase = 0; phaseTimer = 0; frameCount = 0; done = false;
+    eggText.textContent = messages[0];
+    eggText.style.color = '#00ff41';
+    eggText.style.textShadow = '0 0 8px #00ff41';
+    overlay.classList.add('active');
+    clearCanvas();
+    drawEgg(0);
+    animFrame = requestAnimationFrame(animate);
+  }
+
+  function closeOverlay() {
+    cancelAnimationFrame(animFrame);
+    overlay.classList.remove('active');
+    overlay.style.backgroundColor = '#000';
+  }
+
+  trigger.addEventListener('click', openEgg);
+  skipBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeOverlay();
+  });
+
+})();
+</script>
+
+</body>
+</html>
