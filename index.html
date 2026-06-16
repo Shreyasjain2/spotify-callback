@@ -1531,9 +1531,9 @@ footer p {
                 drawFloatingMario();
                 fmActive = true;
                 fmCanvas.style.display = 'block';
-                fmX = window.innerWidth / 2;
-                fmY = window.innerHeight + 50; 
-                fmVy = -1.5; 
+                fmX = window.innerWidth * 0.8;
+                fmY = window.innerHeight; 
+                fmVy = -2; 
                 fmVx = (Math.random() > 0.5 ? 1 : -1) * 1.5;
                 updateFloatingMario();
               }
@@ -1661,8 +1661,10 @@ footer p {
     if (!fmDragging) {
       fmX += fmVx;
       fmY += fmVy;
-      if (fmX <= 0 || fmX >= window.innerWidth - fmCanvas.width) fmVx *= -1;
-      if (fmY <= 0 || fmY >= window.innerHeight - fmCanvas.height) fmVy *= -1;
+      if (fmX <= 0 && fmVx < 0) fmVx *= -1;
+      if (fmX >= window.innerWidth - fmCanvas.width && fmVx > 0) fmVx *= -1;
+      if (fmY <= 0 && fmVy < 0) fmVy *= -1;
+      if (fmY >= window.innerHeight - fmCanvas.height && fmVy > 0) fmVy *= -1;
     }
     fmCanvas.style.left = fmX + 'px';
     fmCanvas.style.top = fmY + 'px';
