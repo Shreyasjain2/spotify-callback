@@ -1527,8 +1527,16 @@ footer p {
             document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });
             setTimeout(() => {
               mario.enteringPipe = false;
-              mario.y = -50;
-              mario.x = W * 0.5;
+              if (!fmActive) {
+                drawFloatingMario();
+                fmActive = true;
+                fmCanvas.style.display = 'block';
+                fmX = window.innerWidth / 2;
+                fmY = window.innerHeight + 50; 
+                fmVy = -1.5; 
+                fmVx = (Math.random() > 0.5 ? 1 : -1) * 1.5;
+                updateFloatingMario();
+              }
             }, 1000);
           }
         }
@@ -1598,6 +1606,101 @@ footer p {
   setTimeout(() => { mario.y = -50; mario.x = W * 0.5; }, 100);
 
   draw();
+
+  // ── Floating Mario (Zero Gravity) ──
+  const fmCanvas = document.createElement('canvas');
+  fmCanvas.id = 'floating-mario';
+  Object.assign(fmCanvas.style, {
+    position: 'fixed',
+    zIndex: '9999',
+    cursor: 'grab',
+    display: 'none',
+    imageRendering: 'pixelated',
+    pointerEvents: 'auto'
+  });
+  document.body.appendChild(fmCanvas);
+  
+  let fmActive = false;
+  let fmX = 0, fmY = 0;
+  let fmVx = 1, fmVy = 1;
+  let fmDragging = false;
+  
+  function drawFloatingMario() {
+    const m = scale * 0.5 * 1.5;
+    fmCanvas.width = Math.ceil(12 * m);
+    fmCanvas.height = Math.ceil(16 * m);
+    const fmCtx = fmCanvas.getContext('2d');
+    fmCtx.clearRect(0,0,fmCanvas.width, fmCanvas.height);
+    
+    fmCtx.fillStyle = '#ff0000';
+    fmCtx.fillRect(2*m, 0, 6*m, 2*m);
+    fmCtx.fillRect(1*m, 2*m, 9*m, 2*m);
+    fmCtx.fillStyle = '#ffcc99';
+    fmCtx.fillRect(2*m, 4*m, 6*m, 4*m);
+    fmCtx.fillRect(8*m, 4*m, 2*m, 2*m);
+    fmCtx.fillStyle = '#663300';
+    fmCtx.fillRect(2*m, 4*m, 2*m, 4*m);
+    fmCtx.fillRect(6*m, 4*m, 1*m, 2*m);
+    fmCtx.fillRect(7*m, 6*m, 4*m, 1*m);
+    fmCtx.fillStyle = '#0000ff';
+    fmCtx.fillRect(2*m, 8*m, 6*m, 4*m);
+    fmCtx.fillRect(4*m, 12*m, 2*m, 2*m);
+    fmCtx.fillStyle = '#ff0000';
+    fmCtx.fillRect(0, 8*m, 2*m, 3*m);
+    fmCtx.fillRect(8*m, 8*m, 3*m, 3*m);
+    fmCtx.fillStyle = '#ffcc99';
+    fmCtx.fillRect(0, 11*m, 2*m, 2*m);
+    fmCtx.fillRect(9*m, 11*m, 2*m, 2*m);
+    fmCtx.fillStyle = '#663300';
+    fmCtx.fillRect(1*m, 14*m, 3*m, 2*m);
+    fmCtx.fillRect(6*m, 14*m, 4*m, 2*m);
+  }
+
+  function updateFloatingMario() {
+    if (!fmActive) return;
+    if (!fmDragging) {
+      fmX += fmVx;
+      fmY += fmVy;
+      if (fmX <= 0 || fmX >= window.innerWidth - fmCanvas.width) fmVx *= -1;
+      if (fmY <= 0 || fmY >= window.innerHeight - fmCanvas.height) fmVy *= -1;
+    }
+    fmCanvas.style.left = fmX + 'px';
+    fmCanvas.style.top = fmY + 'px';
+    requestAnimationFrame(updateFloatingMario);
+  }
+
+  let dragOffX = 0, dragOffY = 0;
+  fmCanvas.addEventListener('mousedown', e => {
+    fmDragging = true;
+    fmCanvas.style.cursor = 'grabbing';
+    dragOffX = e.clientX - fmX;
+    dragOffY = e.clientY - fmY;
+  });
+  window.addEventListener('mousemove', e => {
+    if (fmDragging) {
+      fmX = e.clientX - dragOffX;
+      fmY = e.clientY - dragOffY;
+    }
+  });
+  window.addEventListener('mouseup', () => {
+    if (fmDragging) {
+      fmDragging = false;
+      fmCanvas.style.cursor = 'grab';
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    if (fmActive && window.scrollY < 50) {
+      fmActive = false;
+      fmCanvas.style.display = 'none';
+      mario.y = -50;
+      mario.x = W * 0.5;
+      mario.isGrounded = false;
+      mario.vy = 0;
+      mario.vx = 0;
+    }
+  });
+
 })();
 
 // ── Scroll Reveal ─────────────────────────────────────────────────
