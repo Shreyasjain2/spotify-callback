@@ -73,15 +73,7 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   PIXEL CURSOR TRAIL CANVAS
-   ════════════════════════════════════════════════════════════════ */
-#cursor-trail {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-}
+
 
 /* ════════════════════════════════════════════════════════════════
    LAYOUT
@@ -271,6 +263,14 @@ nav {
 /* ════════════════════════════════════════════════════════════════
    SECTION HEADERS — Game level style
    ════════════════════════════════════════════════════════════════ */
+#about .quest-card {
+  margin: 0 auto;
+  text-align: center;
+}
+#about .level-header {
+  justify-content: center;
+}
+
 .level-header {
   display: flex;
   align-items: center;
@@ -781,10 +781,7 @@ footer p {
 <!-- Starfield canvas -->
 <canvas id="starfield"></canvas>
 
-<!-- Pixel cursor trail -->
-<canvas id="cursor-trail"></canvas>
 
-<!-- Content -->
 <div class="wrap">
 
 <!-- ═══ NAV ═══ -->
@@ -808,17 +805,8 @@ footer p {
       <h1>SHREYAS<br/>JAIN.</h1>
     </div>
     <div class="hero-subtitle">ML Engineer // AI Developer</div>
-    <div class="hero-roles">
-      <span>Ex-SDE Intern</span> @ Verint &middot;
-      <span>Ex-Research Intern</span> @ Samsung R&amp;D<br/>
-      <span>Nexus Lead</span> @ Team Dhi, RVCE
-    </div>
-    <div class="hero-actions" style="justify-content:center; margin-top:28px;">
-      <a href="#projects" class="btn-retro primary">View Inventory</a>
-      <a href="https://github.com/Shreyasjain2" target="_blank" class="btn-retro secondary">GitHub</a>
-      <a href="https://www.linkedin.com/in/shreyas-jain-b7970125a/" target="_blank" class="btn-retro secondary">LinkedIn</a>
-    </div>
-    <div class="hero-coin-prompt">PRESS START / SCROLL DOWN</div>
+    <div class="hero-subtitle">ML Engineer // AI Developer</div>
+    <div class="hero-coin-prompt" style="margin-top:40px;">JUMP TO HIT THE BLOCKS!</div>
   </div>
 </section>
 
@@ -1175,69 +1163,7 @@ footer p {
   draw();
 })();
 
-// ── Pixel Cursor Trail ────────────────────────────────────────────
-(function () {
-  const c = document.getElementById('cursor-trail');
-  const ctx = c.getContext('2d');
-  let W, H;
 
-  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const particles = [];
-  const colors = ['#00ff41', '#00d4ff', '#ffd700', '#ff6b35'];
-
-  document.addEventListener('mousemove', e => {
-    for (let i = 0; i < 2; i++) {
-      particles.push({
-        x: e.clientX + (Math.random() - 0.5) * 8,
-        y: e.clientY + (Math.random() - 0.5) * 8,
-        size: Math.random() < 0.5 ? 2 : 3,
-        life: 1,
-        decay: 0.03 + Math.random() * 0.03,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5 + 0.5,
-      });
-    }
-  });
-
-  // Click creates a pixel burst
-  document.addEventListener('click', e => {
-    for (let i = 0; i < 16; i++) {
-      const angle = (Math.PI * 2 / 16) * i;
-      const speed = 2 + Math.random() * 3;
-      particles.push({
-        x: e.clientX,
-        y: e.clientY,
-        size: 2 + Math.floor(Math.random() * 2),
-        life: 1,
-        decay: 0.02 + Math.random() * 0.02,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-      });
-    }
-  });
-
-  function frame() {
-    ctx.clearRect(0, 0, W, H);
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= p.decay;
-      if (p.life <= 0) { particles.splice(i, 1); continue; }
-      ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
-      ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
-    }
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(frame);
-  }
-  frame();
-})();
 
 // ── Mario-Inspired Hero Scene ─────────────────────────────────────
 (function () {
@@ -1396,9 +1322,55 @@ footer p {
     return { x, y: by, w: s, h: s };
   }
 
-  // ── Interactive Mario ──
+// ── Interactive Mario ──
   let mario = { x: 100, y: 100, vx: 0, vy: 0, dir: 1, isGrounded: false };
   const keys = { left: false, right: false, up: false };
+
+  // Links state for the brick blocks
+  const linkBlocks = [
+    { label: 'INVENTORY', url: '#projects', hits: 0, bounceY: 0, bounceTime: 0 },
+    { label: 'GITHUB', url: 'https://github.com/Shreyasjain2', hits: 0, bounceY: 0, bounceTime: 0 },
+    { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/shreyas-jain-b7970125a/', hits: 0, bounceY: 0, bounceTime: 0 }
+  ];
+
+  function drawLinkBlock(b, x, y, t) {
+    const bw = 120 * Math.max(scale * 0.4, 0.8);
+    const bh = 36 * Math.max(scale * 0.4, 0.8);
+    
+    if (t < b.bounceTime + 200) {
+      b.bounceY = -Math.sin((t - b.bounceTime) / 200 * Math.PI) * 10;
+    } else {
+      b.bounceY = 0;
+    }
+    const by = Math.floor(y + b.bounceY);
+    
+    // Brick bg
+    drawPixelRect(x, by, bw, bh, '#c84c0c');
+    drawPixelRect(x, by + bh - 2, bw, 2, '#502000');
+    drawPixelRect(x + bw - 2, by, 2, bh, '#502000');
+    drawPixelRect(x, by, bw, 2, '#f8b080');
+    
+    // Mortar lines
+    drawPixelRect(x, by + Math.floor(bh/2), bw, 2, '#502000');
+    drawPixelRect(x + Math.floor(bw/3), by, 2, Math.floor(bh/2), '#502000');
+    drawPixelRect(x + Math.floor(bw/1.5), by + Math.floor(bh/2), 2, Math.floor(bh/2), '#502000');
+
+    // Text
+    ctx.fillStyle = '#fff';
+    ctx.font = Math.floor(10 * Math.max(scale * 0.4, 0.8)) + "px 'Press Start 2P'";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(b.label, x + bw/2, by + bh/2 + 2);
+    
+    // Hits remaining text
+    if (b.hits > 0 && b.hits < 2) {
+      ctx.fillStyle = '#ff0000';
+      ctx.font = "8px 'Press Start 2P'";
+      ctx.fillText("HIT AGAIN!", x + bw/2, by - 12);
+    }
+
+    return { x, y: by, w: bw, h: bh, blockObj: b };
+  }
 
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
@@ -1406,7 +1378,6 @@ footer p {
     if (e.key === 'ArrowUp' || e.key === 'w' || e.key === ' ') {
       keys.up = true;
       if (mario.isGrounded) { mario.vy = -12 * (scale * 0.5); mario.isGrounded = false; }
-      // Prevent scrolling down with space if on the hero section
       if (e.key === ' ' && window.scrollY < H) e.preventDefault();
     }
   });
@@ -1497,6 +1468,17 @@ footer p {
         else if (mario.vy < 0 && mario.y <= p.y + p.h && mario.y - mario.vy >= p.y + p.h - 10) {
           mario.y = p.y + p.h;
           mario.vy = 0;
+          if (p.blockObj && Date.now() > p.blockObj.bounceTime + 300) {
+            p.blockObj.bounceTime = Date.now();
+            p.blockObj.hits++;
+            if (p.blockObj.hits >= 2) {
+              setTimeout(() => {
+                if (p.blockObj.url.startsWith('#')) location.href = p.blockObj.url;
+                else window.open(p.blockObj.url, '_blank');
+                p.blockObj.hits = 0; // reset
+              }, 300);
+            }
+          }
         }
       }
     }
@@ -1515,9 +1497,16 @@ footer p {
     const groundY = H * 0.78;
     let platforms = [{ x: 0, y: groundY, w: W, h: H - groundY }]; // Ground
 
-    // Question blocks floating
-    platforms.push(drawQuestionBlock(W * 0.18, groundY - 90 * scale * 0.5, t));
-    platforms.push(drawQuestionBlock(W * 0.82, groundY - 70 * scale * 0.5, t));
+    // Link brick blocks
+    const gap = 40;
+    const blockW = 120 * Math.max(scale * 0.4, 0.8);
+    const totalW = blockW * 3 + gap * 2;
+    const startX = (W - totalW) / 2;
+    const blockY = groundY - 140 * scale * 0.5;
+
+    platforms.push(drawLinkBlock(linkBlocks[0], startX, blockY, t));
+    platforms.push(drawLinkBlock(linkBlocks[1], startX + blockW + gap, blockY, t));
+    platforms.push(drawLinkBlock(linkBlocks[2], startX + (blockW + gap) * 2, blockY, t));
     platforms.push(drawQuestionBlock(W * 0.65, groundY - 110 * scale * 0.5, t + 1000));
 
     // Get text banner rect for Mario to stand on
@@ -1582,7 +1571,7 @@ footer p {
   const eggImg     = new Image();
   eggImg.src       = './Easter egg rero logo.png';
   const spotifyImg = new Image();
-  spotifyImg.src   = './pixelated logo spotify.png';
+  spotifyImg.src   = './spotify retro logo.png';
 
   function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
