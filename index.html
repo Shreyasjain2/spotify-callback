@@ -1528,12 +1528,15 @@ footer p {
             setTimeout(() => {
               mario.enteringPipe = false;
               if (!fmActive) {
+                drawTopPipe();
+                topPipeCanvas.style.display = 'block';
                 drawFloatingMario();
                 fmActive = true;
                 fmCanvas.style.display = 'block';
-                fmX = window.innerWidth * 0.8;
-                fmY = window.innerHeight; 
-                fmVy = -2; 
+                const tw = 40 * scale * 0.5;
+                fmX = window.innerWidth * 0.8 + (tw - fmCanvas.width) / 2;
+                fmY = 80 * scale * 0.5 - fmCanvas.height; 
+                fmVy = 2.5; 
                 fmVx = (Math.random() > 0.5 ? 1 : -1) * 1.5;
                 updateFloatingMario();
               }
@@ -1606,6 +1609,55 @@ footer p {
   setTimeout(() => { mario.y = -50; mario.x = W * 0.5; }, 100);
 
   draw();
+
+  // ── Top Pipe Extension ──
+  const topPipeCanvas = document.createElement('canvas');
+  topPipeCanvas.id = 'top-pipe';
+  Object.assign(topPipeCanvas.style, {
+    position: 'fixed',
+    top: '0',
+    zIndex: '9998',
+    display: 'none',
+    imageRendering: 'pixelated',
+    pointerEvents: 'none'
+  });
+  document.body.appendChild(topPipeCanvas);
+
+  function drawTopPipe() {
+    const pw = 36 * scale * 0.5;
+    const tw = 40 * scale * 0.5;
+    const th = 20 * scale * 0.5;
+    const height = 80 * scale * 0.5;
+    
+    topPipeCanvas.width = tw;
+    topPipeCanvas.height = height;
+    topPipeCanvas.style.left = (window.innerWidth * 0.8) + 'px';
+    
+    const ctx = topPipeCanvas.getContext('2d');
+    const pipeTopY = height - th;
+    
+    ctx.fillStyle = '#00aa00';
+    ctx.fillRect((tw - pw)/2, 0, pw, height - th);
+    ctx.fillStyle = '#55ff55';
+    ctx.fillRect((tw - pw)/2, 0, 4 * scale * 0.5, height - th);
+    ctx.fillStyle = '#005500';
+    ctx.fillRect((tw - pw)/2 + pw - 4 * scale * 0.5, 0, 4 * scale * 0.5, height - th);
+    
+    ctx.fillStyle = '#00aa00';
+    ctx.fillRect(0, pipeTopY, tw, th);
+    ctx.fillStyle = '#55ff55';
+    ctx.fillRect(0, pipeTopY, tw, 2 * scale * 0.5);
+    ctx.fillStyle = '#005500';
+    ctx.fillRect(0, pipeTopY + th - 4 * scale * 0.5, tw, 4 * scale * 0.5);
+    
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, pipeTopY, tw, 1); 
+    ctx.fillRect((tw - pw)/2, 0, 1, height - th);
+    ctx.fillRect(tw - (tw - pw)/2 - 1, 0, 1, height - th);
+    ctx.fillRect(0, pipeTopY, 1, th); 
+    ctx.fillRect(tw - 1, pipeTopY, 1, th); 
+    ctx.fillRect(0, pipeTopY + th - 1, tw, 1);
+  }
 
   // ── Floating Mario (Zero Gravity) ──
   const fmCanvas = document.createElement('canvas');
@@ -1695,6 +1747,7 @@ footer p {
     if (fmActive && window.scrollY < 50) {
       fmActive = false;
       fmCanvas.style.display = 'none';
+      topPipeCanvas.style.display = 'none';
       mario.y = -50;
       mario.x = W * 0.5;
       mario.isGrounded = false;
