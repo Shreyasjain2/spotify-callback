@@ -145,80 +145,84 @@ nav {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   HERO — Retro terminal boot sequence
+   HERO — Mario-inspired landing
    ════════════════════════════════════════════════════════════════ */
 #hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding-top: 56px;
-}
-
-.terminal-window {
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
+  position: relative;
   width: 100%;
-  max-width: 720px;
-  box-shadow: 0 0 40px rgba(0,255,65,0.04), inset 0 0 80px rgba(0,0,0,0.3);
-}
-
-.terminal-bar {
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--bg3);
-  border-bottom: 2px solid var(--border);
+  justify-content: center;
 }
 
-.terminal-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
+#mario-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
-.terminal-dot.red { background: var(--pink); }
-.terminal-dot.yellow { background: var(--amber); }
-.terminal-dot.green { background: var(--green); }
 
-.terminal-title {
+.hero-overlay {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.hero-banner {
+  background: #8B4513;
+  border: 4px solid #5C2D06;
+  padding: 28px 48px 24px;
+  display: inline-block;
+  box-shadow: 4px 4px 0 #3a1a00, inset 0 0 0 3px #a0522d;
+  margin-bottom: 20px;
+}
+
+.hero-banner h1 {
+  font-family: var(--pixel);
+  font-size: clamp(24px, 5vw, 42px);
+  color: #fff;
+  text-shadow: 3px 3px 0 #5C2D06, -1px -1px 0 #5C2D06;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+}
+
+.hero-subtitle {
+  font-family: var(--pixel);
+  font-size: clamp(8px, 1.5vw, 12px);
+  color: var(--amber);
+  text-shadow: 0 0 12px rgba(255,215,0,0.5), 2px 2px 0 rgba(0,0,0,0.6);
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+.hero-roles {
+  font-family: var(--pixel);
+  font-size: clamp(7px, 1.2vw, 9px);
+  color: #ccc;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+  letter-spacing: 0.06em;
+  line-height: 2;
+}
+
+.hero-roles span { color: var(--cyan); }
+
+.hero-coin-prompt {
   font-family: var(--pixel);
   font-size: 8px;
-  color: var(--text-dim);
-  margin-left: 12px;
+  color: #aaa;
+  text-shadow: 1px 1px 0 #000;
+  margin-top: 20px;
+  animation: blink-prompt 1.2s step-end infinite;
+  letter-spacing: 0.08em;
 }
 
-.terminal-body {
-  padding: 28px 24px;
-  min-height: 320px;
-}
-
-.terminal-body .line {
-  margin-bottom: 6px;
-  font-family: var(--mono);
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.line .prompt { color: var(--green); }
-.line .cmd    { color: var(--text-hi); }
-.line .comment { color: var(--text-dim); font-style: italic; }
-.line .output { color: var(--text); }
-.line .highlight { color: var(--cyan); }
-.line .warn   { color: var(--amber); }
-.line .link-text { color: var(--orange); }
-
-#typed-cursor {
-  display: inline-block;
-  width: 9px;
-  height: 16px;
-  background: var(--green);
-  margin-left: 2px;
-  vertical-align: text-bottom;
-  animation: blink-cursor 0.8s step-end infinite;
-}
-
-@keyframes blink-cursor {
+@keyframes blink-prompt {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
@@ -799,25 +803,25 @@ footer p {
   </ul>
 </nav>
 
-<!-- ═══ HERO — Terminal Boot ═══ -->
+<!-- ═══ HERO — Mario Scene ═══ -->
 <section id="hero">
-  <div class="container">
-    <div class="terminal-window">
-      <div class="terminal-bar">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title">shreyas@portfolio ~ $</span>
-      </div>
-      <div class="terminal-body" id="terminal-output">
-        <!-- Typewriter lines injected by JS -->
-      </div>
+  <canvas id="mario-canvas"></canvas>
+  <div class="hero-overlay">
+    <div class="hero-banner">
+      <h1>SHREYAS<br/>JAIN.</h1>
     </div>
-    <div class="hero-actions reveal" id="hero-actions" style="opacity:0;">
+    <div class="hero-subtitle">ML Engineer // AI Developer</div>
+    <div class="hero-roles">
+      <span>Ex-SDE Intern</span> @ Verint &middot;
+      <span>Ex-Research Intern</span> @ Samsung R&amp;D<br/>
+      <span>Nexus Lead</span> @ Team Dhi, RVCE
+    </div>
+    <div class="hero-actions" style="justify-content:center; margin-top:28px;">
       <a href="#projects" class="btn-retro primary">View Inventory</a>
       <a href="https://github.com/Shreyasjain2" target="_blank" class="btn-retro secondary">GitHub</a>
       <a href="https://www.linkedin.com/in/shreyas-jain-b7970125a/" target="_blank" class="btn-retro secondary">LinkedIn</a>
     </div>
+    <div class="hero-coin-prompt">PRESS START / SCROLL DOWN</div>
   </div>
 </section>
 
@@ -1238,94 +1242,179 @@ footer p {
   frame();
 })();
 
-// ── Terminal Typewriter ───────────────────────────────────────────
+// ── Mario-Inspired Hero Scene ─────────────────────────────────────
 (function () {
-  const terminal = document.getElementById('terminal-output');
-  const actions  = document.getElementById('hero-actions');
+  const canvas = document.getElementById('mario-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const TILE = 16; // base tile size, will scale
+  let scale = 1;
+  let mouseX = 0;
 
-  const lines = [
-    { type: 'cmd', prompt: '$ ', text: 'whoami' },
-    { type: 'out', text: '<span class="highlight">Shreyas Jain</span>' },
-    { type: 'out', text: 'ML Engineer  //  AI Developer  //  RVCE, Bangalore' },
-    { type: 'blank' },
-    { type: 'cmd', prompt: '$ ', text: 'cat experience.log' },
-    { type: 'out', text: '<span class="warn">Ex-SDE Intern</span> @ Verint Solutions' },
-    { type: 'out', text: '<span class="warn">Ex-Research Intern</span> @ Samsung R&D India' },
-    { type: 'out', text: '<span class="warn">Nexus Lead</span> @ Team Dhi, RVCE' },
-    { type: 'blank' },
-    { type: 'cmd', prompt: '$ ', text: 'echo $INTERESTS' },
-    { type: 'out', text: 'LLM Mathematics, Reinforcement Learning, Generative AI' },
-    { type: 'blank' },
-    { type: 'cmd', prompt: '$ ', text: 'echo "Ready to explore?"' },
-    { type: 'out', text: '<span class="highlight">Ready to explore?</span> <span class="comment">// scroll down or use the nav</span>' },
-  ];
+  function resize() {
+    W = canvas.width = canvas.parentElement.offsetWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight;
+    scale = Math.max(H / 240, 2); // NES was 256x240
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouseX = e.clientX / W; });
 
-  let lineIdx = 0;
-  let charIdx = 0;
-  let currentEl = null;
+  // Colors — evening palette
+  const SKY_TOP = '#1a0a2e';     // deep purple
+  const SKY_MID = '#2d1b4e';     // mid purple
+  const SKY_BOT = '#6b3a7a';     // warm purple-pink horizon
+  const GROUND  = '#3a2010';     // dark brown brick
+  const GROUND2 = '#5c3418';     // lighter brown brick
+  const HILL_BG = '#1a3a1a';     // dark green distant hill
+  const HILL_FG = '#2a5a2a';     // brighter foreground hill
+  const CLOUD   = 'rgba(200,200,220,0.25)'; // faint evening clouds
+  const BRICK_LINE = '#2a1508';  // brick mortar line
+  const QBLOCK  = '#c88020';     // question block gold
+  const QBLOCK2 = '#a06018';     // question block shadow
 
-  function nextLine() {
-    if (lineIdx >= lines.length) {
-      // Show action buttons
-      actions.style.opacity = '1';
-      actions.style.transform = 'translateY(0)';
-      actions.classList.add('visible');
-      return;
-    }
+  // Cloud objects
+  const clouds = [];
+  for (let i = 0; i < 6; i++) {
+    clouds.push({
+      x: Math.random() * 1.5,
+      y: 0.08 + Math.random() * 0.28,
+      w: 40 + Math.random() * 50,
+      speed: 0.00005 + Math.random() * 0.00008,
+    });
+  }
 
-    const line = lines[lineIdx];
+  // Stars
+  const stars = [];
+  for (let i = 0; i < 50; i++) {
+    stars.push({
+      x: Math.random(),
+      y: Math.random() * 0.5,
+      size: Math.random() < 0.6 ? 1 : 2,
+      twinkle: Math.random() * Math.PI * 2,
+      speed: 0.003 + Math.random() * 0.008,
+    });
+  }
 
-    if (line.type === 'blank') {
-      const div = document.createElement('div');
-      div.className = 'line';
-      div.innerHTML = '&nbsp;';
-      terminal.appendChild(div);
-      lineIdx++;
-      setTimeout(nextLine, 120);
-      return;
-    }
+  function drawPixelRect(x, y, w, h, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(Math.floor(x), Math.floor(y), Math.ceil(w), Math.ceil(h));
+  }
 
-    const div = document.createElement('div');
-    div.className = 'line';
+  function drawSky() {
+    const grad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+    grad.addColorStop(0, SKY_TOP);
+    grad.addColorStop(0.5, SKY_MID);
+    grad.addColorStop(1, SKY_BOT);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+  }
 
-    if (line.type === 'cmd') {
-      div.innerHTML = '<span class="prompt">' + line.prompt + '</span><span class="cmd" id="typing-target"></span><span id="typed-cursor"></span>';
-      terminal.appendChild(div);
-      currentEl = div.querySelector('#typing-target');
-      charIdx = 0;
-      typeChar(line.text);
-      return;
-    }
-
-    if (line.type === 'out') {
-      div.innerHTML = '<span class="output">' + line.text + '</span>';
-      div.style.opacity = '0';
-      terminal.appendChild(div);
-      setTimeout(() => { div.style.opacity = '1'; }, 50);
-      lineIdx++;
-      setTimeout(nextLine, 180);
-      return;
+  function drawStars(t) {
+    for (const s of stars) {
+      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed + s.twinkle));
+      ctx.fillStyle = `rgba(255,255,240,${alpha})`;
+      ctx.fillRect(Math.floor(s.x * W), Math.floor(s.y * H), s.size, s.size);
     }
   }
 
-  function typeChar(text) {
-    if (charIdx < text.length) {
-      currentEl.textContent += text[charIdx];
-      charIdx++;
-      setTimeout(() => typeChar(text), 35 + Math.random() * 35);
-    } else {
-      // Remove cursor from this line
-      const cursor = currentEl.parentElement.querySelector('#typed-cursor');
-      if (cursor) cursor.remove();
-      lineIdx++;
-      setTimeout(nextLine, 300);
+  function drawClouds(t) {
+    ctx.fillStyle = CLOUD;
+    for (const c of clouds) {
+      const cx = ((c.x + t * c.speed) % 1.4 - 0.2) * W;
+      const cy = c.y * H;
+      const cw = c.w * scale * 0.5;
+      const ch = cw * 0.4;
+      // Simple pixel cloud: 3 rounded bumps
+      drawPixelRect(cx, cy, cw, ch, CLOUD);
+      drawPixelRect(cx + cw * 0.15, cy - ch * 0.5, cw * 0.35, ch * 0.6, CLOUD);
+      drawPixelRect(cx + cw * 0.45, cy - ch * 0.7, cw * 0.3, ch * 0.8, CLOUD);
     }
-    // Auto scroll terminal
-    terminal.scrollTop = terminal.scrollHeight;
   }
 
-  // Start the sequence after a short delay
-  setTimeout(nextLine, 600);
+  function drawHill(cx, baseY, radius, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(cx, baseY, radius, Math.PI, 0);
+    ctx.fill();
+  }
+
+  function drawHills() {
+    const groundY = H * 0.78;
+    // Parallax factor based on mouse
+    const px = (mouseX - 0.5) * 30;
+    // Distant hills
+    drawHill(W * 0.15 + px * 0.3, groundY, 120 * scale * 0.5, HILL_BG);
+    drawHill(W * 0.55 + px * 0.3, groundY, 80 * scale * 0.5, HILL_BG);
+    drawHill(W * 0.85 + px * 0.3, groundY, 140 * scale * 0.5, HILL_BG);
+    // Foreground hills
+    drawHill(W * 0.3 + px * 0.6, groundY, 90 * scale * 0.5, HILL_FG);
+    drawHill(W * 0.75 + px * 0.6, groundY, 110 * scale * 0.5, HILL_FG);
+  }
+
+  function drawGround() {
+    const groundY = Math.floor(H * 0.78);
+    const groundH = H - groundY;
+    // Solid ground fill
+    drawPixelRect(0, groundY, W, groundH, GROUND);
+    // Brick pattern
+    const bw = Math.floor(16 * scale * 0.5);
+    const bh = Math.floor(8 * scale * 0.5);
+    if (bw < 4 || bh < 3) return;
+    let row = 0;
+    for (let y = groundY; y < H; y += bh) {
+      const offset = (row % 2 === 0) ? 0 : bw / 2;
+      for (let x = -bw; x < W + bw; x += bw) {
+        const bx = Math.floor(x + offset);
+        // Brick face lighter shade
+        drawPixelRect(bx + 1, y + 1, bw - 2, bh - 2, GROUND2);
+        // Mortar lines
+        drawPixelRect(bx, y, bw, 1, BRICK_LINE);
+        drawPixelRect(bx, y, 1, bh, BRICK_LINE);
+      }
+      row++;
+    }
+    // Top edge line of ground
+    drawPixelRect(0, groundY, W, 2, '#4a6a2a');
+  }
+
+  function drawQuestionBlock(x, y, t) {
+    const s = Math.floor(12 * scale * 0.5);
+    const bounce = Math.sin(t * 0.003) * 3;
+    const by = Math.floor(y + bounce);
+    // Block body
+    drawPixelRect(x, by, s, s, QBLOCK);
+    // Shadow edges
+    drawPixelRect(x, by + s - 2, s, 2, QBLOCK2);
+    drawPixelRect(x + s - 2, by, 2, s, QBLOCK2);
+    // Question mark (pixel '?')
+    const ps = Math.max(1, Math.floor(s / 8));
+    ctx.fillStyle = '#fff';
+    // Top curve of ?
+    ctx.fillRect(x + s * 0.3, by + s * 0.15, s * 0.4, ps);
+    ctx.fillRect(x + s * 0.6, by + s * 0.25, ps * 2, s * 0.2);
+    ctx.fillRect(x + s * 0.4, by + s * 0.4, s * 0.25, ps);
+    // Dot
+    ctx.fillRect(x + s * 0.43, by + s * 0.6, ps * 2, ps * 2);
+  }
+
+  function draw() {
+    const t = Date.now();
+    drawSky();
+    drawStars(t);
+    drawClouds(t);
+    drawHills();
+    drawGround();
+
+    // Question blocks floating
+    const groundY = H * 0.78;
+    drawQuestionBlock(W * 0.18, groundY - 90 * scale * 0.5, t);
+    drawQuestionBlock(W * 0.82, groundY - 70 * scale * 0.5, t);
+    drawQuestionBlock(W * 0.65, groundY - 110 * scale * 0.5, t + 1000);
+
+    requestAnimationFrame(draw);
+  }
+  draw();
 })();
 
 // ── Scroll Reveal ─────────────────────────────────────────────────
@@ -1368,7 +1457,7 @@ footer p {
   const eggImg     = new Image();
   eggImg.src       = './Easter egg rero logo.png';
   const spotifyImg = new Image();
-  spotifyImg.src   = './pixelated logo spotify.png';
+  spotifyImg.src   = './spotify retro logo.png';
 
   function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
