@@ -1105,9 +1105,6 @@ footer p {
         if (shakeTime > 0) {
           offsetX = (Math.random() - 0.5) * 24;
           offsetY = (Math.random() - 0.5) * 24;
-        } else if (eggHealth < 5) {
-          // Add a passive slight shake when health is low
-          offsetX = (Math.random() - 0.5) * (5 - eggHealth) * 2;
         }
         ctx.drawImage(eggImg, offsetX, offsetY, canvas.width, canvas.height);
       }
@@ -1147,10 +1144,6 @@ footer p {
     
     eggHealth--;
     shakeTime = 8;
-    
-    // flash white
-    overlay.style.backgroundColor = '#fff';
-    setTimeout(() => { if(!done) overlay.style.backgroundColor = '#000'; }, 40);
 
     if (eggHealth > 0) {
       if (eggHealth <= 2) eggText.style.color = '#ff003c';
